@@ -1,14 +1,85 @@
 <div class="container py-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h3>Customer Directory</h3>
-    <button class="btn btn-outline-secondary btn-sm" [routerLink]="['/']">
+    <button class="btn btn-outline-secondary btn-sm" [routerLink]="['/dashboard']">
       <i class="fas fa-arrow-left"></i> Back to Dashboard
     </button>
   </div>
 
   <div class="card border-0 shadow-sm">
-    <div class="card-body">
-        
+    <div class="card-body p-0">
+      <table class="table table-hover mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email Address</th>
+            <th>Telephone</th>
+            <th>Mobile</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (customer of customers; track customer.id) {
+            <tr>
+              <td>{{ customer.firstName }}</td>
+              <td>{{ customer.lastName }}</td>
+              <td>{{ customer.email }}</td>
+              <td>{{ customer.tel }}</td>
+              <td>{{ customer.cell }}</td>
+              <td class="text-center">
+                <button
+                  class="btn btn-sm btn-outline-primary"
+                  [routerLink]="['/customers', customer.id]"
+                >
+                  <i class="fas fa-edit"></i>
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="text-center py-4 text-muted">
+                No customers found. Click "Add Customer" to begin.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
     </div>
+
+    <button class="btn btn-primary btn-sm mt-2" (click)="modal.show()">Add new customer</button>
   </div>
 </div>
+
+<dialog #modal>
+  <div class="modalForm">
+    <div class="mb-2">Create new Customer</div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col">
+            <input type="text" name="firstName" class="form-control" placeholder="first name" />
+        </div>
+        <div class="col">
+            <input type="text" name="lastName" class="form-control" placeholder="last name" />
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col">
+            <input type="text" name="email" class="form-control" placeholder="email" />
+        </div>
+        <div class="col">
+            <input type="text" name="tel" class="form-control" placeholder="tel nr" />
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-6">
+            <input type="text" name="cell" class="form-control" placeholder="cell nr" />
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary mt-3">Add</button>
+    <button class="btn btn-light mt-3 ms-2" (click)="modal.close()">Close</button>
+  </div>
+</dialog>

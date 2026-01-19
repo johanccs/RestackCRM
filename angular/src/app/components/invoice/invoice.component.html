@@ -1,0 +1,94 @@
+<div class="container">
+  <div class="card">
+    <div class="row">
+      <div class="col-2">
+        <img class="logo" src="/assets/images/logo.png" alt="Invoice logo" />
+      </div>
+      <div class="col logo-text">
+        <h5 class="card-title">New invoice</h5>
+      </div>
+      <hr />
+    </div>
+    <div class="card-body">
+      <form>
+        <div class="form-group">
+          <div class="row">
+            <div class="col">
+              <label for="invoice-nr" class="form-label fw-bold">Invoice nr</label>
+              <input type="text" class="form-control" id="invoice-nr" placeholder="inv nr" />
+            </div>
+
+            <div class="col">
+              <label for="cust" class="form-label fw-bold">Customer</label>
+              <input type="text" class="form-control" id="cust" placeholder="customer" />
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col">
+              <label for="status" class="form-label fw-bold">Status</label>
+              <div type="text" class="form-control">{{ status }}</div>
+            </div>
+
+            <div class="col">
+              <label for="date" class="form-label fw-bold">Date</label>
+              <input type="date" class="form-control" id="date" />
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col">
+              <label for="payment-terms" class="form-label fw-bold">Payement Terms</label>
+              <div type="text" class="form-control">{{ paymentterms }}</div>
+            </div>
+          </div>
+
+          <div class="mt-4 items">Items</div>
+          
+        <table class="table table-hover mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Id</th>
+            <th>Product Name</th>
+            <th>Description</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (invoiceLine of invoice.invoiceLines; track invoiceLine.id) {
+            <tr>
+              <td>{{ invoiceLine.id }}</td>
+              <td>{{ invoiceLine.productName }}</td>
+              <td>{{ invoiceLine.description }}</td>
+              <td>{{ invoiceLine.qty }}</td>
+              <td>{{ invoiceLine.price }}</td>
+              <td class="text-center">
+                <button
+                  class="btn btn-sm btn-outline-primary"
+                >
+                  <i class="fas fa-edit"></i>
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="text-center py-4 text-muted">
+                No invoice lines found. Click "+" to begin.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+        <app-invoice-item />
+
+        </div>
+      </form>
+    </div>
+  </div>
+  <button class="btn btn-primary mt-4">Save</button>
+</div>
+
+

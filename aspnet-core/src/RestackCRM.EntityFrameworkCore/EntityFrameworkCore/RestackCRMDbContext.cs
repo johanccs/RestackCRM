@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RestackCRM.Customers;
+using RestackCRM.Invoices;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
@@ -53,6 +56,14 @@ public class RestackCRMDbContext :
 
     #endregion
 
+    #region Custom entities
+
+    public DbSet<Customer> Customers { get; set; }
+    public DbSet<Invoice> Invoices { get; set; }
+    public DbSet<InvoiceLine> InvoiceLines { get; set; }
+
+    #endregion
+
     public RestackCRMDbContext(DbContextOptions<RestackCRMDbContext> options)
         : base(options)
     {
@@ -76,11 +87,19 @@ public class RestackCRMDbContext :
 
         /* Configure your own tables/entities inside here */
 
-        //builder.Entity<YourEntity>(b =>
-        //{
-        //    b.ToTable(RestackCRMConsts.DbTablePrefix + "YourEntities", RestackCRMConsts.DbSchema);
-        //    b.ConfigureByConvention(); //auto configure for the base class props
-        //    //...
-        //});
+        builder.Entity<Customer>(b =>
+        {
+            b.ToTable(RestackCRMConsts.DbTablePrefix + "Customers", RestackCRMConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.FirstName).IsRequired().HasMaxLength(128);
+            b.Property(x => x.Email).IsRequired().HasMaxLength(256);
+        });
+
+        builder.Entity<Invoice>(b =>
+        {
+            b.ToTable(RestackCRMConsts.DbTablePrefix + "Invoices", RestackCRMConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.HasMany(x => x.InvoiceLines).WithOne().HasForeignKey(x => x.Id).IsRequired();
+        });
     }
 }

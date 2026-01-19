@@ -1,0 +1,52 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>Customer Directory</h3>
+    <button class="btn btn-outline-secondary btn-sm" [routerLink]="['/dashboard']">
+      <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </button>
+  </div>
+
+  <div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+      <table class="table table-hover mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Customer</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Invoice Nr</th>
+            <th>Payment Terms</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (invoice of invoices; track invoice.id) {
+            <tr>
+              <td>{{ invoice.custId }}</td>
+              <td>{{ invoice.date | date: "dd/MM/yyyy" }}</td>
+              <td>{{ invoice.status }}</td>
+              <td>{{ invoice.invoiceNr }}</td>
+              <td>{{ invoice.paymentTerms }}</td>
+              <td class="text-center">
+                <button
+                  class="btn btn-sm btn-outline-primary"
+                >
+                  <i class="fas fa-edit"></i>
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="text-center py-4 text-muted">
+                No invoices found. Click "Add Invoice" to begin.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <button class="btn btn-success btn-sm mt-2" [routerLink]="['/invoice']">Add new invoice</button>
+  </div>
+</div>
+

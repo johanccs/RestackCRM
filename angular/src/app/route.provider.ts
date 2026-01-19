@@ -20,7 +20,20 @@ function configureRoutes(routesService: RoutesService) {
         name: 'Customers',
         iconClass: 'fas fa-users',
         layout: eLayoutType.application,
+      },
+      {
+        path: '/invoices',
+        name: 'Invoices',
+        iconClass: 'fas fa-file-invoice',
+        layout: eLayoutType.application,
+      },
+      {
+        path: '/invoice',
+        name: 'Invoice',
+        iconClass: 'fas fa-file-medical',
+        layout: eLayoutType.application,
       }
+
     ]);
   };
 }
