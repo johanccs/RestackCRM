@@ -1,0 +1,35 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/RestackCRM.Application.Contracts/RestackCRM.Application.Contracts.csproj" />
+    <Project Path="src/RestackCRM.Application/RestackCRM.Application.csproj" />
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <Project Path="src/RestackCRM.DbMigrator/RestackCRM.DbMigrator.csproj" />
+    <Project Path="src/RestackCRM.Domain.Shared/RestackCRM.Domain.Shared.csproj" />
+    <Project Path="src/RestackCRM.Domain/RestackCRM.Domain.csproj" />
+    <Project Path="src/RestackCRM.EntityFrameworkCore/RestackCRM.EntityFrameworkCore.csproj" />
+    <Project Path="src/RestackCRM.HttpApi.Client/RestackCRM.HttpApi.Client.csproj" />
+    
+    <Project Path="src/RestackCRM.HttpApi.Host/RestackCRM.HttpApi.Host.csproj" />
+    <Project Path="src/RestackCRM.HttpApi/RestackCRM.HttpApi.csproj" />
+    
+    
+    
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/RestackCRM.Application.Tests/RestackCRM.Application.Tests.csproj" />
+    <Project Path="test/RestackCRM.Domain.Tests/RestackCRM.Domain.Tests.csproj" />
+    <Project Path="test/RestackCRM.EntityFrameworkCore.Tests/RestackCRM.EntityFrameworkCore.Tests.csproj" />
+    <Project Path="test/RestackCRM.HttpApi.Client.ConsoleTestApp/RestackCRM.HttpApi.Client.ConsoleTestApp.csproj" />
+    
+    <Project Path="test/RestackCRM.TestBase/RestackCRM.TestBase.csproj" />
+    
+  </Folder>
+</Solution>
