@@ -5,6 +5,12 @@ import { InvoiceListComponent } from './components/invoice-list/invoice-list.com
 import { InvoiceComponent } from './components/invoice/invoice.component';
 
 export const appRoutes: Routes = [
+  
+  {
+    path: '', 
+    redirectTo: 'dashboard', 
+    pathMatch: 'full' 
+  },
   {
     path: 'dashboard',
     pathMatch: 'full',

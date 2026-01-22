@@ -28,10 +28,9 @@
               <td>{{ invoice.invoiceNr }}</td>
               <td>{{ invoice.paymentTerms }}</td>
               <td class="text-center">
-                <button
-                  class="btn btn-sm btn-outline-primary"
-                >
-                  <i class="fas fa-edit"></i>
+                <button (click)="onDelete(invoice.id)"
+                  class="btn btn-sm btn-outline-danger" >
+                  <i class="fas fa-trash"></i>
                 </button>
               </td>
             </tr>
@@ -49,4 +48,15 @@
     <button class="btn btn-success btn-sm mt-2" [routerLink]="['/invoice']">Add new invoice</button>
   </div>
 </div>
+
+<dialog #confirmmodal>
+  <div class="confirmmodal">
+    <div class="mb-2">{{ modalText }}</div>
+    <hr />
+    <div class="mb-2">{{ bodyText }}</div>
+    <hr>
+    <button class="btn btn-warning mt-3 ms-2" (click)="confirmmodal.close()">Close</button>
+  </div>
+</dialog>
+
 

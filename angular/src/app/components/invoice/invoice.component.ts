@@ -5,6 +5,7 @@ import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } fr
 import { CustomerDto } from '@proxy/customer-dtos';
 import { CustomerService } from '@proxy/cstomers';
 import { PagedResultDto } from '@abp/ng.core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-invoice',
@@ -18,6 +19,7 @@ export class InvoiceComponent implements OnInit {
 
   private invoiceService = inject(InvoiceService);
   private customerService = inject(CustomerService);
+  private router = inject(Router);
   private fb = inject(FormBuilder);
 
   invoiceForm: FormGroup;
@@ -131,15 +133,13 @@ export class InvoiceComponent implements OnInit {
 
     if (this.invoiceForm.invalid || this.invoiceLines.length === 0) {
       this.invoiceForm.markAllAsTouched();
-      this.confirmModalElement.nativeElement.showModal();
     }
-
-    console.log(this.invoiceForm.value);
 
     this.invoiceService.create(this.invoiceForm.value).subscribe({
       next: (response) => {
         this.modalText = `Invoice ${response.id} saved`;
-        this.confirmModalElement.nativeElement.showModal();
+        this.invoiceForm.reset();
+        this.router.navigate(['/invoices']);
       },
       error: (err) => this.modalText = err
     });
