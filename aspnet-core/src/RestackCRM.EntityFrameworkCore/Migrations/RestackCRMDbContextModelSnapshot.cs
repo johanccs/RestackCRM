@@ -19,7 +19,7 @@ namespace RestackCRM.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.SqlServer)
-                .HasAnnotation("ProductVersion", "10.0.0")
+                .HasAnnotation("ProductVersion", "10.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -152,11 +152,17 @@ namespace RestackCRM.Migrations
             modelBuilder.Entity("RestackCRM.Invoices.InvoiceLine", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("InvoiceId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -170,7 +176,9 @@ namespace RestackCRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("InvoiceLines");
+                    b.HasIndex("InvoiceId");
+
+                    b.ToTable("AppInvoiceLines", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
@@ -1960,7 +1968,7 @@ namespace RestackCRM.Migrations
                 {
                     b.HasOne("RestackCRM.Invoices.Invoice", null)
                         .WithMany("InvoiceLines")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("InvoiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

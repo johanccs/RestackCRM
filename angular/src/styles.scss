@@ -57,3 +57,61 @@
   background-image: url('/assets/images/getting-started/x.svg');
 }
 
+/* Styling the dialog container */
+dialog {
+  border: none;
+  border-radius: 16px; /* Smoother corners */
+  padding: 0;
+  width: 80%;
+  max-width: 300px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  position: fixed;
+  top: 30%;
+  left: 20%;
+  transform: translate(-50%, -50%);
+}
+
+.confirmmodal {
+  display: flex;
+  flex-direction: column;
+  padding: 24px; /* Uniform padding inside the box */
+  background: #fff;
+}
+
+/* Header/Title Style */
+.modal-text {
+  font-size: 1.15rem;
+  color: #2d3748;
+  font-weight: 500;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+/* Custom Horizontal Rule */
+hr {
+  border: 0;
+  border-top: 1px solid #edf2f7;
+  margin: 0 0 20px 0;
+  width: 100%;
+}
+
+/* Button Container to prevent full-width stretching */
+.button-container {
+  display: flex;
+  justify-content: flex-end; /* Aligns button to the right */
+}
+
+/* The Green Button */
+.btn-success {
+  background-color: #198754;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn-success:hover {
+  background-color: #157347;
+}

@@ -93,13 +93,26 @@ public class RestackCRMDbContext :
             b.ConfigureByConvention();
             b.Property(x => x.FirstName).IsRequired().HasMaxLength(128);
             b.Property(x => x.Email).IsRequired().HasMaxLength(256);
+            b.Property(x => x.Tel).IsRequired(); 
+            b.Property(x => x.Cell).IsRequired();
         });
 
         builder.Entity<Invoice>(b =>
         {
             b.ToTable(RestackCRMConsts.DbTablePrefix + "Invoices", RestackCRMConsts.DbSchema);
             b.ConfigureByConvention();
-            b.HasMany(x => x.InvoiceLines).WithOne().HasForeignKey(x => x.Id).IsRequired();
+
+            b.HasMany(x => x.InvoiceLines)
+             .WithOne()
+             .HasForeignKey("InvoiceId")
+             .IsRequired()
+             .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<InvoiceLine>(b =>
+        {
+            b.ToTable(RestackCRMConsts.DbTablePrefix + "InvoiceLines", RestackCRMConsts.DbSchema);
+            b.ConfigureByConvention();
         });
     }
 }

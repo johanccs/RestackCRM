@@ -20,7 +20,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (customer of customers; track customer.id) {
+          @for (customer of customers; track $index) {
             <tr>
               <td>{{ customer.firstName }}</td>
               <td>{{ customer.lastName }}</td>
@@ -29,10 +29,8 @@
               <td>{{ customer.cell }}</td>
               <td class="text-center">
                 <button
-                  class="btn btn-sm btn-outline-primary"
-                  [routerLink]="['/customers', customer.id]"
-                >
-                  <i class="fas fa-edit"></i>
+                  class="btn btn-sm btn-outline-danger" (click)="onDelete(customer.id)">
+                  <i class="fa fa-trash"></i>
                 </button>
               </td>
             </tr>
@@ -54,32 +52,104 @@
 <dialog #modal>
   <div class="modalForm">
     <div class="mb-2">Create new Customer</div>
-
-    <div class="form-group">
+    <hr>
+    <form [formGroup]="customerForm" class="form-group" (ngSubmit)="onAdd()">
       <div class="row">
         <div class="col">
-            <input type="text" name="firstName" class="form-control" placeholder="first name" />
+          <label>First Name</label>
+          <input
+            type="text"
+            name="firstName"
+            class="form-control form-control-sm"
+            formControlName="firstName"
+            placeholder="first name"
+            [class.is-invalid]="customerForm.get('firstName')?.invalid && customerForm.get('firstName')?.touched"/>
+
+            @if (customerForm.get('firstName')?.invalid && customerForm.get('firstName')?.touched) {
+              <small class="text-danger">First name is required</small>
+            }
+
         </div>
         <div class="col">
-            <input type="text" name="lastName" class="form-control" placeholder="last name" />
-        </div>
+          <label>Last Name</label>
+          <input
+            type="text"
+            name="lastName"
+            class="form-control form-control-sm"
+            formControlName="lastName"
+            placeholder="last name"
+            [class.is-invalid]="customerForm.get('lastName')?.invalid && customerForm.get('lastName')?.touched" />
+        
+            @if (customerForm.get('lastName')?.invalid && customerForm.get('lastName')?.touched) {
+              <small class="text-danger">Last name is required</small>
+            }
+        
+          </div>
       </div>
       <div class="row mt-2">
         <div class="col">
-            <input type="text" name="email" class="form-control" placeholder="email" />
+          <label>Email</label>
+          <input
+            type="text"
+            name="email"
+            class="form-control form-control-sm"
+            formControlName="email"
+            placeholder="email"
+            [class.is-invalid]="customerForm.get('email')?.invalid && customerForm.get('email')?.touched" />
+            
+            @if (customerForm.get('email')?.invalid && customerForm.get('email')?.touched) {
+              <small class="text-danger">Email is required</small>
+            }
+
         </div>
         <div class="col">
-            <input type="text" name="tel" class="form-control" placeholder="tel nr" />
+          <label>Tel Nr</label>
+          <input
+            type="text"
+            name="tel"
+            class="form-control form-control-sm"
+            formControlName="tel"
+            placeholder="tel nr"
+            [class.is-invalid]="customerForm.get('tel')?.invalid && customerForm.get('tel')?.touched" />
+
+            @if (customerForm.get('tel')?.invalid && customerForm.get('tel')?.touched) {
+              <small class="text-danger">Tel nr is required</small>
+            }
+
         </div>
       </div>
       <div class="row mt-2">
         <div class="col-6">
-            <input type="text" name="cell" class="form-control" placeholder="cell nr" />
+          <label>Cell</label>
+          <input
+            type="text"
+            name="cell"
+            class="form-control form-control-sm"
+            formControlName="cell"
+            placeholder="cell nr"
+            [class.is-invalid]="customerForm.get('cell')?.invalid && customerForm.get('cell')?.touched" />
+
+            @if (customerForm.get('cell')?.invalid && customerForm.get('cell')?.touched) {
+              <small class="text-danger">Cell nr is required</small>
+            }
+
         </div>
       </div>
-    </div>
+    </form>
 
-    <button class="btn btn-primary mt-3">Add</button>
+    <button class="btn btn-primary mt-3" (click)="onAdd()" [disabled]="customerForm.invalid">
+      Add
+    </button>
     <button class="btn btn-light mt-3 ms-2" (click)="modal.close()">Close</button>
   </div>
 </dialog>
+
+<dialog #confirmmodal>
+  <div class="confirmmodal">
+    <div class="mb-2">Customer saved successfully</div>
+    <hr>
+    <button class="btn btn-success mt-3 ms-2" (click)="onClose()">Close</button>
+  </div>
+</dialog>
+
+   

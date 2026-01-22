@@ -10,85 +10,100 @@
       <hr />
     </div>
     <div class="card-body">
-      <form>
+      <form [formGroup]="invoiceForm" class="form-group" (ngSubmit)="onSave()">
         <div class="form-group">
-          <div class="row">
+          <div class="row first-row">
             <div class="col">
-              <label for="invoice-nr" class="form-label fw-bold">Invoice nr</label>
-              <input type="text" class="form-control" id="invoice-nr" placeholder="inv nr" />
+              <label for="invoice-nr" class="form-label fw-bold text-muted">Invoice Nr</label>
+              <input
+                type="text"
+                class="form-control form-control-sm bg-light"
+                id="invoice-nr"
+                formControlName="invoiceNr"
+                readonly
+                tabindex="-1" />
             </div>
 
             <div class="col">
               <label for="cust" class="form-label fw-bold">Customer</label>
-              <input type="text" class="form-control" id="cust" placeholder="customer" />
+              <select formControlName="custId" class="form-select form-select-sm">
+                <option [value]="''" disabled>-- Select customer --</option>
+                @for (customer of customers; track customer.id) {
+                  <option [value]="customer.id">
+                    {{ customer.lastName }} {{ customer.firstName }}
+                  </option>
+                }
+              </select>
             </div>
           </div>
 
           <div class="row mt-3">
             <div class="col">
-              <label for="status" class="form-label fw-bold">Status</label>
-              <div type="text" class="form-control">{{ status }}</div>
+              <label class="form-label fw-bold">Status</label>
+              <select formControlName="status" class="form-select form-select-sm">
+                <option [value]="''" disabled>-- Select Status --</option>
+                <option value="Draft">Draft</option>
+                <option value="Sent">Sent</option>
+                <option value="Paid">Paid</option>
+              </select>
             </div>
 
             <div class="col">
               <label for="date" class="form-label fw-bold">Date</label>
-              <input type="date" class="form-control" id="date" />
+              <input type="date" class="form-control form-control-sm" id="date" />
             </div>
           </div>
 
           <div class="row mt-3">
             <div class="col">
               <label for="payment-terms" class="form-label fw-bold">Payement Terms</label>
-              <div type="text" class="form-control">{{ paymentterms }}</div>
+
+              <select formControlName="paymentTerms" class="form-select form-select-sm">
+                <option [value]="''" disabled>-- Select Terms --</option>
+
+                @for (pmt of paymentTerms; track $index) {
+                  <option [value]="pmt">{{ pmt }}</option>
+                }
+              </select>
             </div>
           </div>
 
           <div class="mt-4 items">Items</div>
-          
-        <table class="table table-hover mb-0">
-        <thead class="table-light">
-          <tr>
-            <th>Id</th>
-            <th>Product Name</th>
-            <th>Description</th>
-            <th>Qty</th>
-            <th>Price</th>
-            <th class="text-center">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (invoiceLine of invoice.invoiceLines; track invoiceLine.id) {
-            <tr>
-              <td>{{ invoiceLine.id }}</td>
-              <td>{{ invoiceLine.productName }}</td>
-              <td>{{ invoiceLine.description }}</td>
-              <td>{{ invoiceLine.qty }}</td>
-              <td>{{ invoiceLine.price }}</td>
-              <td class="text-center">
-                <button
-                  class="btn btn-sm btn-outline-primary"
-                >
-                  <i class="fas fa-edit"></i>
-                </button>
-              </td>
-            </tr>
-          } @empty {
-            <tr>
-              <td colspan="6" class="text-center py-4 text-muted">
-                No invoice lines found. Click "+" to begin.
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
 
-        <app-invoice-item />
+          <div formArrayName="invoiceLines">
+            @for (line of invoiceLines.controls; track $index) {
+              <div class="row">
+                <div class="col app-invoice-item">
+                  <app-invoice-item [lineForm]="line" />
+                </div>
 
+                <div class="col-2 mt-3">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-danger btn-sm mb-2 del-btn"
+                    (click)="removeLine($index)"
+                  >
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+
+          <button type="button" class="btn btn-success btn-sm mt-2" (click)="addLine()">
+            + Add Line Item
+          </button>
         </div>
+        <button type="submit" class="btn btn-primary mt-3">Save</button>
       </form>
     </div>
   </div>
-  <button class="btn btn-primary mt-4">Save</button>
 </div>
 
-
+<dialog #confirmmodal>
+  <div class="confirmmodal">
+    <div class="mb-2">{{ modalText }}</div>
+    <hr />
+    <button class="btn btn-warning mt-3 ms-2" (click)="confirmmodal.close()">Close</button>
+  </div>
+</dialog>

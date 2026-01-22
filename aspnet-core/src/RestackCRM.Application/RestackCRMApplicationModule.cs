@@ -7,6 +7,7 @@ using Volo.Abp.PermissionManagement;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.AutoMapper;
 
 namespace RestackCRM;
 
@@ -18,12 +19,19 @@ namespace RestackCRM;
     typeof(AbpPermissionManagementApplicationModule),
     typeof(AbpTenantManagementApplicationModule),
     typeof(AbpFeatureManagementApplicationModule),
-    typeof(AbpSettingManagementApplicationModule)
+    typeof(AbpSettingManagementApplicationModule),
+    typeof(AbpAutoMapperModule)
     )]
 public class RestackCRMApplicationModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddMapperlyObjectMapper<RestackCRMApplicationModule>();
+        //context.Services.AddMapperlyObjectMapper<RestackCRMApplicationModule>();
+        context.Services.AddAutoMapperObjectMapper<RestackCRMApplicationModule>();
+
+        Configure<AbpAutoMapperOptions>(options =>
+        {
+           options.AddMaps<RestackCRMApplicationModule>();     
+        });
     }
 }

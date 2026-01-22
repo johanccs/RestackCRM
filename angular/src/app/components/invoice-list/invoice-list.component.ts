@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Invoice } from 'src/app/Models/invoice.model';
+import { InvoiceDto, InvoiceService } from '@proxy/invoices';
 
 @Component({
   selector: 'app-invoice-list',
@@ -11,17 +11,24 @@ import { Invoice } from 'src/app/Models/invoice.model';
 })
 export class InvoiceListComponent implements OnInit {
   
-  invoices: Invoice[] = [];
-  
+  invoices: InvoiceDto[] = [];
+  invoiceService = inject(InvoiceService);
+
   ngOnInit(): void {
     
-  this.invoices.push(
-      new Invoice({id: 1, custId: 3, date: new Date(), status: 'new', invoiceNr: 1, paymentTerms: '30'}),
-      
-    )
-
+    const input = {
+      maxResultCount: 10,
+      skipCount: 0,
+      sorting: 'id DeSC'
+    };
+    this.invoiceService.getList(input).subscribe({
+      next: (result) => this.invoices = result.items,
+      error: (err) => console.error('Failed to load invoices', err)
+    });
   }
 
-
+  calculateTotal(invoice: InvoiceDto): number {
+    return invoice.invoiceLines.reduce((acc, line) => acc + (line.qty * line.price), 0);
+  }
 
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RestackCRM.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Initial_Complete_Schema : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -431,6 +431,54 @@ namespace RestackCRM.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AppCustomers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Tel = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cell = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppCustomers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppInvoices",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CustId = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InvoiceNr = table.Column<int>(type: "int", nullable: false),
+                    PaymentTerms = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppInvoices", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OpenIddictApplications",
                 columns: table => new
                 {
@@ -722,6 +770,29 @@ namespace RestackCRM.Migrations
                         name: "FK_AbpUserTokens_AbpUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AbpUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppInvoiceLines",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Qty = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    InvoiceId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppInvoiceLines", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AppInvoiceLines_AppInvoices_InvoiceId",
+                        column: x => x.InvoiceId,
+                        principalTable: "AppInvoices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -1027,6 +1098,11 @@ namespace RestackCRM.Migrations
                 column: "UserName");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AppInvoiceLines_InvoiceId",
+                table: "AppInvoiceLines",
+                column: "InvoiceId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictApplications_ClientId",
                 table: "OpenIddictApplications",
                 column: "ClientId");
@@ -1136,6 +1212,12 @@ namespace RestackCRM.Migrations
                 name: "AbpUserTokens");
 
             migrationBuilder.DropTable(
+                name: "AppCustomers");
+
+            migrationBuilder.DropTable(
+                name: "AppInvoiceLines");
+
+            migrationBuilder.DropTable(
                 name: "OpenIddictScopes");
 
             migrationBuilder.DropTable(
@@ -1155,6 +1237,9 @@ namespace RestackCRM.Migrations
 
             migrationBuilder.DropTable(
                 name: "AbpUsers");
+
+            migrationBuilder.DropTable(
+                name: "AppInvoices");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictAuthorizations");

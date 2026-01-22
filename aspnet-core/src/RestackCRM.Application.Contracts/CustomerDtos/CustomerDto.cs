@@ -2,7 +2,7 @@
 
 namespace RestackCRM.CustomerDtos
 {
-    internal class CustomerDto: EntityDto<int>
+    public class CustomerDto: EntityDto<int>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
