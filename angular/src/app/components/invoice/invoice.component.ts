@@ -135,6 +135,8 @@ export class InvoiceComponent implements OnInit {
       this.invoiceForm.markAllAsTouched();
     }
 
+    console.log(this.invoiceForm.value);
+
     this.invoiceService.create(this.invoiceForm.value).subscribe({
       next: (response) => {
         this.modalText = `Invoice ${response.id} saved`;

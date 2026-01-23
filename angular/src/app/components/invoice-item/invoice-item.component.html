@@ -1,17 +1,29 @@
 <div class="container-fluid" [formGroup]="lineForm">
   <div class="row mt-3">
     <div class="col">
-      <input
+      <!-- <input
         type="text"
         formControlName="productName"
         class="form-control form-control-sm"
         placeholder="Product Name"
-        [class.is-invalid]="lineForm.get('productName')?.invalid && lineForm.get('productName')?.touched"/>
-      
-        @if (lineForm.get('productName')?.invalid && lineForm.get('productName')?.touched) {
-          <small class="text-danger">Product name is required</small>
+        [class.is-invalid]="
+          lineForm.get('productName')?.invalid && lineForm.get('productName')?.touched
+        "
+      /> -->
+
+      <select formControlName="productName" class="form-select form-select-sm">
+        <option [value]="''" disabled>-- Select product --</option>
+        @for (product of products; track $index) {
+          <option [value]="product">
+            {{ product }}
+          </option>
         }
-      </div>
+      </select>
+
+      @if (lineForm.get('productName')?.invalid && lineForm.get('productName')?.touched) {
+        <small class="text-danger">Product name is required</small>
+      }
+    </div>
 
     <div class="col">
       <input
@@ -19,11 +31,14 @@
         formControlName="description"
         class="form-control form-control-sm"
         placeholder="Description"
-        [class.is-invalid]="lineForm.get('description')?.invalid && lineForm.get('description')?.touched" />
+        [class.is-invalid]="
+          lineForm.get('description')?.invalid && lineForm.get('description')?.touched
+        "
+      />
 
-       @if (lineForm.get('description')?.invalid && lineForm.get('description')?.touched) {
-          <small class="text-danger">Description is required</small>
-        }
+      @if (lineForm.get('description')?.invalid && lineForm.get('description')?.touched) {
+        <small class="text-danger">Description is required</small>
+      }
     </div>
 
     <div class="col">
@@ -32,11 +47,12 @@
         formControlName="qty"
         class="form-control form-control-sm"
         placeholder="Quantity"
-        [class.is-invalid]="lineForm.get('qty')?.invalid && lineForm.get('qty')?.touched" />
+        [class.is-invalid]="lineForm.get('qty')?.invalid && lineForm.get('qty')?.touched"
+      />
 
-        @if (lineForm.get('qty')?.invalid && lineForm.get('qty')?.touched) {
-          <small class="text-danger">Quantity required</small>
-        }
+      @if (lineForm.get('qty')?.invalid && lineForm.get('qty')?.touched) {
+        <small class="text-danger">Quantity required</small>
+      }
     </div>
 
     <div class="col">
@@ -45,11 +61,12 @@
         formControlName="price"
         class="form-control form-control-sm"
         placeholder="Price"
-        [class.is-invalid]="lineForm.get('price')?.invalid && lineForm.get('price')?.touched" />
+        [class.is-invalid]="lineForm.get('price')?.invalid && lineForm.get('price')?.touched"
+      />
 
-        @if (lineForm.get('price')?.invalid && lineForm.get('price')?.touched) {
-          <small class="text-danger">Price is required</small>
-        }
+      @if (lineForm.get('price')?.invalid && lineForm.get('price')?.touched) {
+        <small class="text-danger">Price is required</small>
+      }
     </div>
   </div>
 </div>

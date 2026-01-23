@@ -12,6 +12,7 @@ export class InvoiceItemComponent {
   @Input()lineForm!: FormGroup;
   @Output() removeLine = new EventEmitter<void>();
   
+  products = ['Laptop', 'Mouse', 'Keyboard'];
 
   onRemove(){
     this.removeLine.emit();
